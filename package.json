@@ -9,7 +9,7 @@
     "build:prod": "npm run clean:dist && webpack --config config/webpack.prod.js  --progress --profile --bail",
     "build:dev": "npm run clean:dist && webpack --config config/webpack.dev.js --progress --profile",
     "clean:dist": "npm run rimraf -- dist compiled dll aot",
-    "clean:zz": "npm cache clean && npm run rimraf -- node_modules doc coverage dist compiled dll",
+    "clean:zz": "npm cache clean && npm run rimraf -- node_modules doc coverage dist compiled dll aot",
     "lint": "npm run tslint \"src/**/*.ts\" --noUnusedParameters --noUnusedLocals",
     "rimraf": "rimraf",
     "server:dev:hmr": "npm run server:dev -- --inline --hot",

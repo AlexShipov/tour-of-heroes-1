@@ -12,7 +12,10 @@ namespace tour_of_heroes_1
     public class Program
     {
         public static void Main(string[] args)
-        {            
+        {
+
+            // check for command line arg containing --server.urls=
+            // if present use it as the base url
             var urlArg = "--server.urls=";
             var url = args.Where(item =>
                         item.StartsWith(urlArg, StringComparison.CurrentCultureIgnoreCase))
@@ -21,15 +24,14 @@ namespace tour_of_heroes_1
             
             var webHostBuilder = new WebHostBuilder()
                 .UseKestrel()
-                .UseWebRoot("dist")
+                .UseWebRoot("dist") // use the dist folder to serve static files
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseApplicationInsights();
 
             if (!string.IsNullOrWhiteSpace(url))
-            {
-                Console.WriteLine($"command line arg: ${url}");
+            {                
                 webHostBuilder = webHostBuilder.UseUrls(url);
             }
 

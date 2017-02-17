@@ -18,7 +18,7 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 /**
  * Webpack Constants
  */
-const API_URL = 'http://localhost:5001/';
+const API_URL = 'http://localhost:5001/';       // set the api url via custom plugin
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;

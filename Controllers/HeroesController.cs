@@ -7,6 +7,9 @@ using tour_of_heroes_1.Models;
 
 namespace tour_of_heroes_1.Controllers
 {
+    /// <summary>
+    /// Simple api used in the tour of heroes project
+    /// </summary>
     [Route("api/[controller]")]
     public class HeroesController: Controller
     {
@@ -31,7 +34,7 @@ namespace tour_of_heroes_1.Controllers
             _fakeDb = data.ToDictionary(hero => hero.Id);
         }
 
-        // GET api/values/search
+        // GET api/heroes/id
         [HttpGet("{id}")]        
         public IActionResult Get(int id)
         {
@@ -44,12 +47,13 @@ namespace tour_of_heroes_1.Controllers
                 return NotFound("No records match");
             }
         }
-        // GET api/values
+        // GET api/heroes
         [HttpGet]        
         public IActionResult Get([FromQuery]HeroSearch search)
         {
             ApiResult<IEnumerable<Hero>> data;
 
+            // if search was specified
             if (search != null && search.Name != null)
             {
                 var matched = _fakeDb.Where(item =>
@@ -64,6 +68,7 @@ namespace tour_of_heroes_1.Controllers
             }
             else
             {
+                // if no search criteria return all items
                 data = new ApiResult<IEnumerable<Hero>>
                 {
                     Data = _fakeDb.Values.ToList()
@@ -73,7 +78,7 @@ namespace tour_of_heroes_1.Controllers
             return Ok(data);
         }
 
-        // PUT api/values/5
+        // PUT api/heroes/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Hero value)
         {
@@ -88,7 +93,7 @@ namespace tour_of_heroes_1.Controllers
             }
         }
 
-        // DELETE api/values/5
+        // DELETE api/heroes/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {            
@@ -103,15 +108,17 @@ namespace tour_of_heroes_1.Controllers
             }
         }
 
-        // POST api/values
+        // POST api/heroes
         [HttpPost]
         public IActionResult Post([FromBody]Hero value)
         {
             lock(_lock)
             {
+                // check if hero exists
                 var exists = _fakeDb.Any(item => string.Equals(item.Value.Name, value.Name, StringComparison.CurrentCultureIgnoreCase));
                 if(!exists)
                 {
+                    // if doesnt exist add and return created status
                     var nextId = _fakeDb.Keys.Any() ? _fakeDb.Keys.Max() + 1 : 1;
                     value.Id = nextId;
                     _fakeDb.Add(value.Id, value);
