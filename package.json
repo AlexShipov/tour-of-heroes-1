@@ -19,7 +19,9 @@
     "tslint": "tslint",
     "webpack-dev-server": "webpack-dev-server",
     "webpack": "webpack",
-    "publish": "npm run build:prod && dotnet publish -c Release"
+    "publish": "npm run rimraf -- bin && npm run build:prod && npm run dotnetpub && npm run postpub",
+    "dotnetpub": "dotnet publish .\\tour-of-heroes-1.csproj -o .\\bin\\pub -c Release",
+    "postpub": "cpx \"./dist/**/*.*\" \"./bin/pub/dist\""
   },
   "dependencies": {
     "@angular/common": "2.4.7",
@@ -56,6 +58,7 @@
     "codelyzer": "^2.0.0",
     "concurrently": "^3.3.0",
     "copy-webpack-plugin": "^4.0.0",
+    "cpx": "^1.5.0",
     "css-loader": "^0.26.0",
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
